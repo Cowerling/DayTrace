@@ -1,0 +1,52 @@
+.content-no-board {
+    padding: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.box-no-board {
+    border-radius: 0px;
+    border-top: 0px;
+    margin-bottom: 0px;
+}
+
+.main-footer-narrow {
+    padding: 5px;
+}
+
+.width-8-per {
+    min-width: 8%;
+}
+
+.super-admin {
+    color: #ffd700;
+}
+
+.admin {
+    color: #00bfff;
+}
+
+.advan-user {
+    color: #ee82ee;
+}
+
+.user {
+    color: #008000;
+}
+
+.medal-1 {
+    background-color: #dd4b39 !important;
+}
+
+.creator:before {
+    content: "\f1d1";
+}
+
+.login:before {
+    content: "\f007";
+}
+
+.login {
+    color: #ffffff !important;
+    background-color: #00c0ef !important;
+}

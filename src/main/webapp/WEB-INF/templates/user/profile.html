@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/page :: head(~{::link}, ~{::script})">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/icheck/1.0.2/skins/all.css}">
+
+        <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery.validate-1.17.0.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/jquery.inputmask/3.1.27/jquery.inputmask.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/select2/4.0.3/js/select2.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/icheck/1.0.2/icheck.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/js/user/profile.js}"></script>
+    </head>
+    <body class="hold-transition skin-red">
+        <div class="wrapper">
+            <header class="main-header" th:replace="layout/page :: header"></header>
+
+            <aside class="main-sidebar" th:replace="layout/page :: sidebar"></aside>
+
+            <div class="content-wrapper">
+
+                <section class="content content-no-board">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="map" class="box box-primary box-no-board map"></div>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <footer class="main-footer main-footer-narrow" th:replace="layout/page :: footer"></footer>
+
+            <aside class="control-sidebar control-sidebar-dark" th:replace="layout/page :: control_sidebar"></aside>
+            <div class="control-sidebar-bg" th:replace="layout/page :: control_sidebar_ex"></div>
+        </div>
+    </body>
+</html>

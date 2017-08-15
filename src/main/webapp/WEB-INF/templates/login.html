@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+    <html lang="en"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <title>Day Trace | Log in</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/bootstrap/3.3.7/css/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/font-awesome/4.7.0/css/font-awesome.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/ionicons/2.0.1/css/ionicons.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/adminlte/2.4.0/css/AdminLTE.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/icheck/1.0.2/skins/all.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/font.css}">
+
+        <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery-3.2.1.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/dependence/icheck/1.0.2/icheck.min.js}"></script>
+        <script type="text/javascript" th:src="@{/resources/js/login.js}"></script>
+    </head>
+
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <b>DAY TRACE</b>
+            </div>
+
+            <div class="login-box-body">
+                <p class="login-box-msg">
+                    Sign in to Start
+                </p>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group has-feedback">
+                        <input type="text" name="username" class="form-control" placeholder="Username">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox" name="remember-me">
+                                    <span>Remember Me</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="text-center text-red" th:if="${error != null}">
+                    <span><i class="fa fa-times-circle-o"></i><b th:text="${error}"></b></span>
+                </div>
+
+                <a href="#">Forgot password</a><br>
+                <a th:href="@{user/register}" class="text-center">Register</a>
+            </div>
+        </div>
+    </body>
+</html>

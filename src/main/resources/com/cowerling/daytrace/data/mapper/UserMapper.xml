@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cowerling.daytrace.data.mapper.UserMapper">
+    <resultMap id="userResult" type="user">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="password" column="password" />
+        <result property="email" column="email" />
+        <result property="userRole" column="role" />
+        <result property="registerDate" column="register_date" />
+        <result property="photo" column="photo" />
+    </resultMap>
+</mapper>
