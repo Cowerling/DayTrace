@@ -1,12 +1,14 @@
 package com.cowerling.daytrace.domain.user;
 
 import com.cowerling.daytrace.annotation.Phone;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Date;
 
 @Alias("userProfile")
 public class UserProfile {
+    @JsonIgnore
     private Long id;
 
     private String alias;
@@ -20,6 +22,7 @@ public class UserProfile {
     @Phone
     private String phone;
 
+    @JsonIgnore
     private Long userId;
 
     public UserProfile() {

@@ -1,5 +1,7 @@
 package com.cowerling.daytrace.domain.user;
 
+import java.util.Arrays;
+
 public enum UserRole {
     SUPER_ADMIN("Super Administrator"), ADMIN("Administrator"), ADVAN_USER("Advanced User"), USER("User");
 
@@ -16,5 +18,9 @@ public enum UserRole {
 
     public String format() {
         return name().toLowerCase().replace('_', '-');
+    }
+
+    public UserRole[] subordinate() {
+        return Arrays.stream(UserRole.values()).filter(x -> x.ordinal() > this.ordinal()).toArray(size -> new UserRole[size]);
     }
 }

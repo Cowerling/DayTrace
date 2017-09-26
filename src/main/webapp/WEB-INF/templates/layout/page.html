@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
     <head th:fragment="head(links, scripts)">
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -197,9 +198,16 @@
                         <li class="header"><b>MENU</b></li>
 
                         <li class="menu-map">
-                            <a href="#">
+                            <a th:href="@{/}">
                                 <i class="fa fa-map-o"></i>
                                 <span>Map</span>
+                            </a>
+                        </li>
+
+                        <li sec:authorize="hasRole('ROLE_ADVAN_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')" class="menu-user-manage">
+                            <a th:href="@{/user/manage}">
+                                <i class="fa fa-users"></i>
+                                <span>User Manage</span>
                             </a>
                         </li>
 

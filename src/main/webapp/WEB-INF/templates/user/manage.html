@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="layout/page :: head(~{::link}, ~{::script})">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/datatables/1.10.15/css/dataTables.bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/dependence/icheck/1.0.2/skins/all.css}">
+
+    <script type="text/javascript" th:src="@{/resources/dependence/datatables/1.10.15/js/jquery.dataTables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery.dateutils.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery.imageselectutils.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery.urlutils.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/datatables/1.10.15/js/dataTables.bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/jquery/jquery.validate-1.17.0.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/jquery.inputmask/3.1.27/jquery.inputmask.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/select2/4.0.3/js/select2.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/dependence/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js}"></script>
+    <script sec:authorize="hasRole('ROLE_SUPER_ADMIN') or hasRole('ROLE_ADMIN')" type="text/javascript" th:src="@{/resources/js/user/manage_edit.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/user/manage.js}"></script>
+</head>
+<body class="hold-transition skin-red">
+<div class="wrapper">
+    <header class="main-header" th:replace="layout/page :: header"></header>
+
+    <aside class="main-sidebar" th:replace="layout/page :: sidebar"></aside>
+
+    <div class="content-wrapper">
+
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover" th:classappend="${#authorization.expression('hasRole(''ROLE_SUPER_ADMIN'') or hasRole(''ROLE_ADMIN'') or hasRole(''ROLE_ADVAN_USER'')') ? 'edit' : ''}">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Register Date</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="user_table">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Register Date</th>
+                                        <th>Role</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <div class="row dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="col-sm-5">
+                                    <div class="dataTables_info" role="status" aria-live="polite">Showing <span id="start_user_index"></span> to <span id="end_user_index"></span> of <span id="user_count"></span> users</div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="dataTables_paginate paging_simple_numbers pull-right">
+                                        <ul class="pagination" id="pagination">
+                                            <li class="paginate_button previous" id="table_previous"><a href="#" tabindex="0">Previous</a></li>
+                                            <li class="paginate_button next" id="table_next"><a href="#" tabindex="0">Next</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_SUPER_ADMIN') or hasRole('ROLE_ADMIN')" class="modal modal-success fade" id="user_edit_modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Edit User</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="user_edit_form" class="form-horizontal" th:action="@{manage/userEdit}" method="post" enctype="multipart/form-data">
+                                <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="form-group">
+                                    <div class="col-sm-12">
+                                        <img id="editedUserPhoto" class="profile-user-img img-responsive img-circle" alt="User profile picture">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" id="origin_name" name="originName" />
+                                </div>
+
+                                <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputGender" class="col-sm-2 control-label">Role</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control select2" id="inputRole" style="width: 100%;" name="role">
+                                            <option th:each="gender : ${loginUser.getUserRole().subordinate()}" th:text="${gender}" th:value="${gender.name()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputAlias" class="col-sm-2 control-label">Alias</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputAlias" name="alias" placeholder="Alias">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+
+                                <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="form-group">
+                                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputGender" class="col-sm-2 control-label">Gender</label>
+
+                                    <div class="col-sm-10">
+                                        <select class="form-control select2 allow-null" id="inputGender" style="width: 100%;" name="gender">
+                                            <option></option>
+                                            <option th:each="gender : ${T(com.cowerling.daytrace.domain.user.UserGender).values()}" th:text="${gender}" th:value="${gender.name()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputBirthday" class="col-sm-2 control-label">Birthday</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control pull-right" id="inputBirthday" name="birthday">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPhone" class="col-sm-2 control-label">Phone</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="inputPhone" data-inputmask='"mask": "999-9999-9999"' data-mask name="phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputBrief" class="col-sm-2 control-label">Brief</label>
+
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" id="inputBrief" placeholder="Brief" name="brief"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPhoto" class="col-sm-2 control-label">Photo</label>
+
+                                    <div class="col-sm-10">
+                                        <div class="input-group image-preview">
+                                            <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-primary image-preview-clear" style="display:none;">
+                                                    <span class="glyphicon glyphicon-remove"></span> Clear
+                                                </button>
+
+                                                <div class="btn btn-primary image-preview-input">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <span class="image-preview-input-title">Browse</span>
+                                                    <input id="inputPhoto" type="file" accept="image/png, image/jpeg, image/gif" name="photo"/>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputMedals" class="col-sm-2 control-label">Medals</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="hidden" id="origin_medals" name="originMedals" />
+                                        <select class="form-control select2 allow-null" multiple="multiple" id="inputMedals" style="width: 100%;" name="medals">
+                                            <option></option>
+                                            <option th:each="medal : ${T(com.cowerling.daytrace.domain.user.UserMedal).award(loginUser.getUserRole())}" th:text="${medal}" th:value="${medal.name()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="hidden" id="page" name="page" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline" id="user_edit_submit">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <footer class="main-footer main-footer-narrow" th:replace="layout/page :: footer"></footer>
+
+    <aside class="control-sidebar control-sidebar-dark" th:replace="layout/page :: control_sidebar"></aside>
+    <div class="control-sidebar-bg" th:replace="layout/page :: control_sidebar_ex"></div>
+</div>
+</body>
+</html>

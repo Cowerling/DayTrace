@@ -7,6 +7,6 @@ public enum UserGender {
 
     @Override
     public String toString() {
-        return StringUtils.capitalize(name());
+        return StringUtils.capitalize(name().toLowerCase());
     }
 }

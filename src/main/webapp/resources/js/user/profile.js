@@ -20,7 +20,13 @@ $(document).ready(function () {
         increaseArea: '20%'
     });
 
-    $("form").validate({
+    $("#settingForm").validate({
+        errorPlacement: function(error, element) {
+            error.appendTo(element.parent()).addClass("text-red");
+        }
+    });
+
+    $("#securityForm").validate({
         errorPlacement: function(error, element) {
             if (element.hasClass("agree")) {
                 error.appendTo(element.parent().parent().parent()).addClass("text-red");
@@ -35,4 +41,8 @@ $(document).ready(function () {
             agree: "Must agree the terms"
         }
     });
+});
+
+$(document).ready(function () {
+    $("div.image-preview").imageSelect();
 });

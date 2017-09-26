@@ -2,6 +2,7 @@ package com.cowerling.daytrace.web;
 
 import com.cowerling.daytrace.annotation.ToResourceNotFound;
 import com.cowerling.daytrace.web.exception.ResourceNotFoundException;
+import com.cowerling.daytrace.web.exception.UserNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.ui.Model;
@@ -56,5 +57,10 @@ public class WideExceptionHandler {
             model.addAttribute("message", e.getMessage());
             return "error/authentication";
         }
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public String userNotFoundHandler() {
+        return "error/resource";
     }
 }

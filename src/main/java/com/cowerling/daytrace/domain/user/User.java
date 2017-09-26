@@ -1,5 +1,6 @@
 package com.cowerling.daytrace.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.validator.constraints.Email;
 
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Alias("user")
 public class User {
+    @JsonIgnore
     private Long id;
 
     @NotNull
@@ -17,6 +19,7 @@ public class User {
 
     @NotNull
     @Size(min = 6, max = 30, message = "{password.size}")
+    @JsonIgnore
     private String password;
 
     @NotNull

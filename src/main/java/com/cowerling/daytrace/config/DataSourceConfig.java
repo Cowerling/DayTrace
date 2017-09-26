@@ -48,6 +48,8 @@ public class DataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setTypeAliasesPackage("com.cowerling.daytrace.domain");
+        sqlSessionFactoryBean.setTypeHandlersPackage("com.cowerling.daytrace.data.type");
+        //org.apache.ibatis.logging.LogFactory.useLog4JLogging();
         return sqlSessionFactoryBean;
     }
 

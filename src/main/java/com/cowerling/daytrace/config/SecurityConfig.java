@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
@@ -31,14 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .formLogin().loginPage("/login")
-            .and()
-            .logout().logoutSuccessUrl("/")
-            .and()
-            .httpBasic().realmName("DayTrace")
-            .and()
-            .authorizeRequests().antMatchers("/resources/**", "/login", "/user/register", "/user/registerSuccess").permitAll().anyRequest().authenticated()
-            .and()
-            .rememberMe().tokenValiditySeconds(TOKEN_TIME).key("dayTraceKey");
+                .formLogin().loginPage("/login")
+                .and()
+                .logout().logoutSuccessUrl("/")
+                .and()
+                .httpBasic().realmName("DayTrace")
+                .and()
+                .authorizeRequests().antMatchers("/resources/**", "/login", "/user/register", "/user/registerSuccess").permitAll().anyRequest().authenticated()
+                .and()
+                .rememberMe().tokenValiditySeconds(TOKEN_TIME).key("dayTraceKey");
     }
 }

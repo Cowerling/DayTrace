@@ -1,13 +1,18 @@
-package com.cowerling.daytrace.domain.user;
+package com.cowerling.daytrace.domain.user.form;
 
-import java.util.Date;
+import com.cowerling.daytrace.annotation.Phone;
+import org.hibernate.validator.constraints.Email;
+
+import javax.validation.constraints.NotNull;
 
 public class UserProfileForm {
     private String alias;
-    private UserGender gender;
-    private String email;
-    private Date birthday;
+    private String gender;
+    private String birthday;
+
+    @Phone
     private String phone;
+
     private String brief;
 
     public String getAlias() {
@@ -18,27 +23,19 @@ public class UserProfileForm {
         this.alias = alias;
     }
 
-    public UserGender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(UserGender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

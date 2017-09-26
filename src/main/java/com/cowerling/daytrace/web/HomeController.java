@@ -4,6 +4,7 @@ import com.cowerling.daytrace.data.UserRepository;
 import com.cowerling.daytrace.domain.user.User;
 import com.cowerling.daytrace.domain.user.UserOperation;
 import com.cowerling.daytrace.domain.user.UserOperationRecord;
+import com.cowerling.daytrace.web.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,23 +25,19 @@ public class HomeController {
     private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String home(Model model, HttpServletRequest request) {
+    public String home(Model model, HttpServletRequest request) throws UserNotFoundException {
         if (!model.containsAttribute("loginUser")) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String name = ((org.springframework.security.core.userdetails.User)authentication.getPrincipal()).getUsername();
             User loginUser = userRepository.findUserByName(name);
+            if (loginUser == null) {
+                throw new UserNotFoundException();
+            }
 
             userRepository.saveUserOperationRecord(new UserOperationRecord(loginUser.getId(), UserOperation.LOGIN, new Date(), "Login at ip " + request.getRemoteAddr()));
-            model.addAttribute("loginUser", userRepository.findUserByName(name));
+            model.addAttribute("loginUser", loginUser);
         }
 
         return "home";
-    }
-
-    @RequestMapping(value = "2", method = RequestMethod.GET)
-    public String home2(Model model, HttpServletRequest request) {
-        model.addAttribute("registerUser", new User());
-
-        return "home2";
     }
 }
